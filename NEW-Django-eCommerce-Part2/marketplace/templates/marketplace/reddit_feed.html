@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Django Reddit {% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="fw-bold mb-4">r/django Community Feed</h2>
+        <div class="list-group shadow-sm">
+            {% for post in posts %}
+            <div class="list-group-item p-4 mb-3 rounded border-0 bg-white">
+                <h5 class="fw-bold mb-1">
+                    <a href="{{ post.url }}" target="_blank" class="text-decoration-none text-dark">
+                        {{ post.title }}
+                    </a>
+                </h5>
+                <small class="text-muted">Posted by u/{{ post.author }}</small>
+            </div>
+            {% empty %}
+            <div class="alert alert-info text-center">Unable to fetch posts from Reddit at this time.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

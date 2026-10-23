@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Vendor Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold">Vendor Dashboard</h1>
+    <a href="{% url 'store_create' %}" class="btn btn-success">+ Create New Store</a>
+</div>
+
+{% for store in stores %}
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">{{ store.name }}</h4>
+        <div>
+            <a href="{% url 'store_edit' store.id %}" class="btn btn-sm btn-outline-light me-1">Edit Store</a>
+            <a href="{% url 'store_delete' store.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">{{ store.description }}</p>
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+            <h5 class="fw-semibold mb-0">Products in Store</h5>
+            <a href="{% url 'product_add' store.id %}" class="btn btn-sm btn-primary">+ Add Product</a>
+        </div>
+        <ul class="list-group">
+            {% for product in store.products.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>{{ product.name }}</strong> - ${{ product.price }}</span>
+                <div>
+                    <a href="{% url 'product_edit' product.id %}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                    <a href="{% url 'product_delete' product.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="list-group-item text-muted text-center py-2">No products added to this store yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info text-center p-4">
+    You haven't created any stores yet. Click <strong>Create New Store</strong> above to get started.
+</div>
+{% endfor %}
+{% endblock %}
